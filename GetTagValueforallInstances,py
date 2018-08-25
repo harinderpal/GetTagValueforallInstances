@@ -1,0 +1,15 @@
+import boto3
+ec2Resource = boto3.resource('ec2')
+
+def lambda_handler(event, context):    
+    instances = ec2Resource.instances.all()
+    for instance in instances:
+        tagValue="Not Defined"
+        instanceTagsList = instance.tags
+        searchtag = 'Name'
+        if (instanceTagsList is not None):
+            for tagPair in instanceTagsList:
+                if tagPair["Key"] == searchtag:
+                    tagValue= tagPair["Value"]
+                    print("VM Name: "+ tagPair["Value"])
+                    
